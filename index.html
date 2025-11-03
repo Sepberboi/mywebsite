@@ -1,0 +1,2185 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Oral Diagnosis Clinic II (คลินิกรังสี)</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#6a0dad;
+  --bg:#f4f0ff;
+  --card:#fff;
+  --muted:#7d6aa3;
+  --danger:#ff4d4f;
+  --ok:#2fbf71;
+  --warning:#ff9800;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Prompt",sans-serif;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+.container{
+  width:100%;
+  max-width:450px;
+  background:var(--card);
+  border-radius:16px;
+  padding:40px;
+  box-shadow:0 6px 30px rgba(106,13,173,0.15);
+  text-align:center;
+}
+
+.app-container{
+  max-width:1200px;
+  width:100%;
+}
+
+#logoImg{
+  width:150px;
+  height:auto;
+  display:block;
+  margin:0 auto 20px;
+}
+
+h1,h2,h3,h4{color:var(--purple);margin:10px 0}
+h1{font-size:24px}
+h3{font-size:18px}
+
+input,select,textarea,button{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #e9defa;
+  font-size:14px;
+  width:100%;
+  margin:6px 0;
+  font-family:"Prompt",sans-serif;
+}
+
+textarea{min-height:80px;resize:vertical}
+
+button{
+  background:var(--purple);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  font-weight:500;
+  transition:all 0.3s;
+}
+
+button:hover{
+  background:#550a99;
+  transform:translateY(-1px);
+}
+
+button.secondary{
+  background:#fff;
+  color:var(--purple);
+  border:1px solid #d7c2f6;
+  font-size:12px;
+}
+
+button.secondary:hover{
+  background:#f9f5ff;
+}
+
+.note{
+  font-size:13px;
+  color:#666;
+  margin-top:6px;
+}
+
+.panel{
+  background:var(--card);
+  border-radius:12px;
+  padding:20px;
+  margin:15px 0;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header{
+  background:var(--purple);
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.header h2{color:white;margin:0}
+
+.tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.tab{
+  padding:12px 20px;
+  background:#fff;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.3s;
+  border:2px solid transparent;
+  font-weight:500;
+}
+
+.tab:hover{
+  background:#f9f5ff;
+}
+
+.tab.active{
+  background:var(--purple);
+  color:white;
+  border-color:var(--purple);
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+.table th,.table td{
+  padding:12px;
+  text-align:left;
+  border-bottom:1px solid #e9defa;
+}
+
+.table th{
+  background:#f9f5ff;
+  color:var(--purple);
+  font-weight:600;
+}
+
+.table tr:hover{
+  background:#f9f5ff;
+}
+
+.thumb{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
+  transition:transform 0.3s;
+}
+
+.thumb:hover{
+  transform:scale(1.1);
+}
+
+.ok{color:var(--ok);font-weight:600}
+.missing{color:var(--danger);font-weight:600}
+.warning{color:var(--warning);font-weight:600}
+
+.row{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.col{
+  flex:1;
+  min-width:250px;
+}
+
+.progress{
+  width:100%;
+  height:20px;
+  background:#e9defa;
+  border-radius:10px;
+  overflow:hidden;
+  margin:10px 0;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg, var(--purple), var(--ok));
+  transition:width 0.5s;
+}
+
+.small{
+  font-size:13px;
+  color:#666;
+  margin:8px 0;
+}
+
+input[type="file"]{
+  padding:8px;
+  border:2px dashed #d7c2f6;
+}
+
+.btn-group{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.btn-group button{
+  flex:1;
+}
+
+.race-track{
+  position:relative;
+  width:100%;
+  height:120px;
+  background:linear-gradient(to right, #f9f5ff 0%, #e7d4ff 50%, #d4b5ff 100%);
+  border-radius:12px;
+  margin:20px 0;
+  overflow:hidden;
+  border:3px solid var(--purple);
+}
+
+.finish-line{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:40px;
+  height:80px;
+  display:flex;
+  flex-direction:column;
+}
+
+.finish-flag{
+  position:absolute;
+  right:0;
+  top:0;
+  width:35px;
+  height:70px;
+  background:repeating-linear-gradient(
+    45deg,
+    #000,
+    #000 8px,
+    #fff 8px,
+    #fff 16px
+  );
+  border:2px solid #333;
+  border-radius:0 4px 4px 0;
+  animation:wave 1s infinite;
+  transform-origin:left center;
+}
+
+.finish-pole{
+  position:absolute;
+  right:35px;
+  top:0;
+  width:3px;
+  height:90px;
+  background:#333;
+}
+
+@keyframes wave{
+  0%,100%{transform:rotateY(0deg)}
+  50%{transform:rotateY(15deg)}
+}
+
+.tooth-runner{
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:60px;
+  transition:left 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  filter:drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(-50%) rotate(0deg)}
+  50%{transform:translateY(-60%) rotate(5deg)}
+}
+
+.tooth-runner.running{
+  animation:bounce 0.5s infinite;
+}
+
+.stat-card{
+  background:linear-gradient(135deg, var(--purple), #8a2be2);
+  color:white;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  margin:10px 0;
+}
+
+.stat-card h2{
+  color:white;
+  font-size:48px;
+  margin:10px 0;
+}
+
+.stat-card p{
+  opacity:0.9;
+  font-size:16px;
+}
+
+.task-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:15px;
+  margin:20px 0;
+}
+
+.task-item{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  border:2px solid #e9defa;
+  transition:all 0.3s;
+  position:relative;
+}
+
+.task-item:hover{
+  transform:translateY(-5px);
+  box-shadow:0 5px 15px rgba(106,13,173,0.2);
+}
+
+.task-item.completed{
+  background:linear-gradient(135deg, #2fbf71, #1a8f50);
+  color:white;
+  border-color:#2fbf71;
+}
+
+.task-item.completed h4{
+  color:white;
+}
+
+.task-item.incomplete{
+  background:linear-gradient(135deg, #ff4d4f, #d32f2f);
+  color:white;
+  border-color:#ff4d4f;
+  animation:pulse 2s infinite;
+}
+
+.task-item.incomplete h4{
+  color:white;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+.task-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.task-count{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:rgba(0,0,0,0.2);
+  color:white;
+  padding:5px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.chart-container{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin:15px 0;
+}
+
+.bar-chart{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-around;
+  height:200px;
+  gap:10px;
+  margin-top:20px;
+}
+
+.bar{
+  flex:1;
+  background:linear-gradient(to top, var(--purple), #b47ede);
+  border-radius:8px 8px 0 0;
+  position:relative;
+  min-width:40px;
+  transition:height 1s ease;
+}
+
+.bar-label{
+  position:absolute;
+  bottom:-25px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-size:12px;
+  color:#666;
+}
+
+.bar-value{
+  position:absolute;
+  top:-25px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-weight:600;
+  color:var(--purple);
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,0.5);
+  z-index:1000;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-content{
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  max-width:600px;
+  max-height:80vh;
+  width:100%;
+  overflow-y:auto;
+  box-shadow:0 10px 40px rgba(0,0,0,0.3);
+}
+
+.comment-box{
+  background:#f9f5ff;
+  border:1px solid #e9defa;
+  border-radius:8px;
+  padding:10px;
+  margin:10px 0;
+}
+
+.comment-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:5px;
+  font-size:12px;
+  color:#666;
+}
+
+.comment-from{
+  font-weight:600;
+  color:var(--purple);
+}
+
+.comment-text{
+  font-size:14px;
+  color:#333;
+}
+
+.alert-box{
+  padding:15px;
+  border-radius:8px;
+  margin:10px 0;
+  font-weight:500;
+}
+
+.alert-danger{
+  background:#ffebee;
+  color:#c62828;
+  border:2px solid #ef5350;
+}
+
+.alert-warning{
+  background:#fff3e0;
+  color:#e65100;
+  border:2px solid #ff9800;
+}
+
+.alert-success{
+  background:#e8f5e9;
+  color:#2e7d32;
+  border:2px solid #4caf50;
+}
+
+.film-counter{
+  display:inline-block;
+  background:var(--purple);
+  color:white;
+  padding:5px 15px;
+  border-radius:20px;
+  font-weight:600;
+  margin:5px;
+}
+
+.film-counter.complete{
+  background:var(--ok);
+}
+
+.film-counter.incomplete{
+  background:var(--danger);
+}
+
+.interpret-box{
+  background:#f0f7ff;
+  border:2px solid #d7e8ff;
+  border-radius:12px;
+  padding:20px;
+  margin:20px 0;
+}
+
+.interpret-result{
+  background:linear-gradient(135deg, var(--purple), #8a2be2);
+  color:white;
+  padding:15px;
+  border-radius:8px;
+  text-align:center;
+  margin-top:15px;
+}
+
+.interpret-result h3{
+  color:white;
+  font-size:36px;
+  margin:5px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Auth Screen -->
+<div id="authScreen" class="container">
+  <img id="logoImg" src="https://i.postimg.cc/g26BhL28/logo-dental-hospital-CT.png" alt="โลโก้">
+
+  <!-- Login -->
+  <div id="loginScreen">
+    <h1>Oral Diagnosis Clinic II</h1>
+    <p class="note">ระบบส่งงานและประเมินฟิล์มรังสี</p>
+
+    <input id="loginUser" placeholder="Username / รหัสนิสิต" />
+    <input id="loginPass" type="password" placeholder="รหัสผ่าน" />
+    <button onclick="login()">เข้าสู่ระบบ</button>
+    
+    <div class="btn-group">
+      <button class="secondary" onclick="showRegister()">สมัครสมาชิก</button>
+      <button class="secondary" onclick="showForgotPassword()">ลืมรหัสผ่าน</button>
+    </div>
+    
+    <button class="secondary" onclick="loadDemoData()" style="margin-top:10px">โหลดข้อมูลทดสอบ</button>
+    <p class="note">ทดสอบ: s001/123 (นิสิต) หรือ t01/teacher (อาจารย์)</p>
+  </div>
+
+  <!-- Register -->
+  <div id="registerScreen" style="display:none">
+    <h3>สมัครสมาชิก</h3>
+    <div class="note">เลือกบทบาทเป็น นิสิต หรือ อาจารย์</div>
+
+    <input id="regFullName" placeholder="ชื่อ-นามสกุล" />
+    <input id="regUsername" placeholder="รหัสนิสิต/username" />
+    <input id="regYear" placeholder="ชั้นปี (ถ้ามี)" />
+    <select id="regRole">
+      <option value="student">นิสิต (Student)</option>
+      <option value="teacher">อาจารย์ (Teacher)</option>
+    </select>
+    <input id="regPass" type="password" placeholder="รหัสผ่าน" />
+
+    <button onclick="registerUser()">ลงทะเบียน</button>
+    <button class="secondary" onclick="showLogin()">กลับหน้าเข้าสู่ระบบ</button>
+  </div>
+
+  <!-- Forgot Password -->
+  <div id="forgotPasswordScreen" style="display:none">
+    <h3>ลืมรหัสผ่าน</h3>
+    <div class="note" style="padding:20px;background:#fff3cd;border-radius:8px;margin:15px 0">
+      <strong>⚠️ กรุณาติดต่อเจ้าหน้าที่</strong><br/>
+      สำหรับการรีเซ็ตรหัสผ่าน กรุณาติดต่อ:<br/><br/>
+      📧 Email: admin@dental.ac.th<br/>
+      📞 Tel: 055-xxx-xxxx<br/>
+      🏢 ห้อง: อาคารทันตแพทย์ ชั้น 2
+    </div>
+    <button class="secondary" onclick="showLogin()">กลับหน้าเข้าสู่ระบบ</button>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="app-container" style="display:none">
+  <div class="header">
+    <div>
+      <h2 id="title">Oral Diagnosis Clinic II</h2>
+      <div id="roleText" class="small" style="color:rgba(255,255,255,0.9)"></div>
+    </div>
+    <button onclick="logout()" style="width:auto;padding:10px 20px">ออกจากระบบ</button>
+  </div>
+
+  <div id="mainTabs" class="tabs"></div>
+  <div id="contentArea"></div>
+</div>
+
+<script>
+// ========== Data Management ==========
+let users = [];
+let records = [];
+let settings = {};
+let currentUser = null;
+
+function initData(){
+  users = JSON.parse(localStorage.getItem('od_users') || '[]');
+  records = JSON.parse(localStorage.getItem('od_records') || '[]');
+  settings = JSON.parse(localStorage.getItem('od_settings') || '{}');
+  
+  if(!settings.weights){
+    settings.weights = {
+      preTest: 2.5,
+      attendance: 5,
+      rad_intraoral_take: 5,
+      rad_intraoral_quality: 3.5,
+      rad_interpretation: 6.5,
+      postTest: 2.5,
+      clinical_other: 25
+    };
+    settings.requiredTasks = ["Periapical","Bitewing","Occlusal","Panoramic","Ceph"];
+    settings.attendanceRequiredCount = 12;
+    settings.minimumFilmsRequired = 30;
+    settings.interpreteWeights = {
+      '0.50': 1,
+      '0.75': 2,
+      '1.00': 3,
+      '1.20': 4
+    };
+    saveAll();
+  }
+}
+
+function saveAll(){
+  localStorage.setItem('od_users', JSON.stringify(users));
+  localStorage.setItem('od_records', JSON.stringify(records));
+  localStorage.setItem('od_settings', JSON.stringify(settings));
+}
+
+function genId(){ 
+  return 'id'+Date.now()+Math.random().toString(36).slice(2,9); 
+}
+
+// ========== Auth Functions ==========
+function showLogin(){
+  document.getElementById('loginScreen').style.display='block';
+  document.getElementById('registerScreen').style.display='none';
+  document.getElementById('forgotPasswordScreen').style.display='none';
+}
+
+function showRegister(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('registerScreen').style.display='block';
+  document.getElementById('forgotPasswordScreen').style.display='none';
+}
+
+function showForgotPassword(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('registerScreen').style.display='none';
+  document.getElementById('forgotPasswordScreen').style.display='block';
+}
+
+function registerUser(){
+  const fullName = document.getElementById('regFullName').value.trim();
+  const username = document.getElementById('regUsername').value.trim();
+  const year = document.getElementById('regYear').value.trim();
+  const role = document.getElementById('regRole').value;
+  const pass = document.getElementById('regPass').value;
+
+  if(!username || !pass || !fullName){
+    alert("กรุณากรอกข้อมูลให้ครบ");
+    return;
+  }
+
+  if(users.find(u=>u.username===username)){
+    alert("มี username นี้แล้ว");
+    return;
+  }
+
+  users.push({fullName, username, year, role, pass});
+  saveAll();
+  alert("สมัครสมาชิกเรียบร้อย!");
+  showLogin();
+}
+
+function login(){
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+
+  const matchedUser = users.find(u => u.username === user && u.pass === pass);
+
+  if(matchedUser){
+    currentUser = user;
+    renderApp();
+  } else {
+    alert("รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+  }
+}
+
+function logout(){
+  currentUser = null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('authScreen').style.display='block';
+  showLogin();
+}
+
+function loadDemoData(){
+  if(!confirm('โหลดข้อมูลทดสอบ? (จะเขียนทับข้อมูลเดิม)')) return;
+  
+  users = [
+    {username:'s001',pass:'123',fullName:'น.ส. สุนิสา แซ่โค้ว',role:'student',year:'4'},
+    {username:'s002',pass:'123',fullName:'นาย สมชาย ใจดี',role:'student',year:'4'},
+    {username:'s003',pass:'123',fullName:'น.ส. วิภาวี สุขใจ',role:'student',year:'4'},
+    {username:'t01',pass:'teacher',fullName:'อ. ดร. วิทยา พานิช',role:'teacher',year:''}
+  ];
+  
+  records = [
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-01', inTime:'08:10', outTime:'12:00', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-02', inTime:'08:15', outTime:'12:10', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-03', inTime:'08:20', outTime:'12:05', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-04', inTime:'08:10', outTime:'12:15', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-07', inTime:'08:05', outTime:'12:00', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-08', inTime:'08:12', outTime:'12:08', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-09', inTime:'08:18', outTime:'12:05', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-10', inTime:'08:10', outTime:'12:10', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-14', inTime:'08:08', outTime:'12:12', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-15', inTime:'08:15', outTime:'12:00', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-16', inTime:'08:20', outTime:'12:05', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'attendance', date:'2025-10-17', inTime:'08:10', outTime:'12:15', supervisor:'t01'},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-02', dn:'DN1001', xrayType:'Periapical', images:[], note:'ตำแหน่งดี', supervisor:'t01', retakeCount:1, interprete:9, teacherScore:85, reviewed:true, teacherComment:'ดีมาก ภาพชัดเจน', comments:[{from:'student',text:'ตำแหน่งดี',time:'2025-10-02T10:30:00'},{from:'teacher',text:'ดีมาก ภาพชัดเจน',time:'2025-10-02T14:20:00'}]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-03', dn:'DN1002', xrayType:'Periapical', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:8, teacherScore:80, reviewed:true, teacherComment:'ดี', comments:[]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-05', dn:'DN1005', xrayType:'Bitewing', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:8, teacherScore:80, reviewed:true, teacherComment:'ดี', comments:[]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-06', dn:'DN1006', xrayType:'Bitewing', images:[], note:'', supervisor:'t01', retakeCount:2, interprete:7, teacherScore:75, reviewed:true, teacherComment:'ซ่อม 1 ครั้ง', comments:[]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-08', dn:'DN1008', xrayType:'Occlusal', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:9, teacherScore:90, reviewed:true, teacherComment:'ดีเยี่ยม', comments:[]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-09', dn:'DN1009', xrayType:'Panoramic', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:8, teacherScore:82, reviewed:true, teacherComment:'ดี', comments:[]},
+    {id:genId(), username:'s001', type:'clinic', clinicDate:'2025-10-10', dn:'DN1010', xrayType:'Periapical', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:8, teacherScore:80, reviewed:true, teacherComment:'', comments:[]},
+    {id:genId(), username:'s002', type:'attendance', date:'2025-10-03', inTime:'08:20', outTime:'12:05', supervisor:'t01'},
+    {id:genId(), username:'s002', type:'attendance', date:'2025-10-04', inTime:'08:25', outTime:'12:00', supervisor:'t01'},
+    {id:genId(), username:'s002', type:'clinic', clinicDate:'2025-10-03', dn:'DN1002', xrayType:'Bitewing', images:[], note:'ไม่ชัด', supervisor:'t01', retakeCount:3, interprete:6, teacherScore:65, reviewed:true, teacherComment:'ซ่อม 2 ครั้ง ควรระวังเรื่องตำแหน่ง', comments:[{from:'student',text:'ไม่ชัด',time:'2025-10-03T10:00:00'},{from:'teacher',text:'ซ่อม 2 ครั้ง ควรระวังเรื่องตำแหน่ง',time:'2025-10-03T15:00:00'}]},
+    {id:genId(), username:'s002', type:'clinic', clinicDate:'2025-10-05', dn:'DN1011', xrayType:'Periapical', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:7, teacherScore:75, reviewed:true, teacherComment:'', comments:[]},
+    {id:genId(), username:'s003', type:'clinic', clinicDate:'2025-10-04', dn:'DN1003', xrayType:'Periapical', images:[], note:'', supervisor:'t01', retakeCount:1, interprete:7, teacherScore:75, reviewed:true, teacherComment:'พอใช้', comments:[]}
+  ];
+  
+  saveAll();
+  alert('โหลดข้อมูลทดสอบเรียบร้อย!\n\nนิสิต: s001/123, s002/123, s003/123\nอาจารย์: t01/teacher');
+}
+
+// ========== App Render ==========
+function renderApp(){
+  const me = users.find(u=>u.username===currentUser);
+  if(!me) return logout();
+  
+  document.getElementById('title').innerText = `ยินดีต้อนรับ ${me.fullName}`;
+  document.getElementById('roleText').innerText = `${me.role==='teacher'?'อาจารย์':'นิสิต'} ${me.year?('— ชั้นปี '+me.year):''}`;
+  
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  
+  buildTabs(me.role);
+}
+
+function buildTabs(role){
+  const tabs = document.getElementById('mainTabs');
+  tabs.innerHTML='';
+  
+  if(role==='student'){
+    addTab('Dashboard', studentDashboardUI);
+    addTab('ส่งงานคลินิก', studentSubmitUI);
+    addTab('ลงชื่อเข้างาน', studentAttendanceUI);
+  } else {
+    addTab('Dashboard รวม', teacherDashboardUI);
+    addTab('ตรวจงาน', teacherReviewUI);
+    addTab('รายชื่อนิสิต', teacherStudentsUI);
+    addTab('ตั้งค่า', teacherSettingsUI);
+  }
+  
+  const tabEls = document.querySelectorAll('.tab');
+  if(tabEls.length) tabEls[0].click();
+}
+
+function addTab(title, fn){
+  const tabs = document.getElementById('mainTabs');
+  const el = document.createElement('div');
+  el.className = 'tab';
+  el.innerText = title;
+  el.onclick = ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('contentArea').innerHTML='';
+    fn();
+  };
+  tabs.appendChild(el);
+}
+
+// ========== Student: Submit Clinic ==========
+function studentSubmitUI(){
+  const html = `
+    <div class="panel">
+      <h3>ส่งงานคลินิก / แนบฟิล์มรังสี</h3>
+      <div class="small">กรอกข้อมูล DN, เลือกประเภทฟิล์ม, แนบภาพ แล้วส่งให้อาจารย์ตรวจ</div>
+      
+      <label>วันที่:</label>
+      <input type="date" id="subDate" />
+      
+      <label>DN:</label>
+      <input id="subDN" placeholder="เช่น DN1234" />
+      
+      <label>ประเภทฟิล์ม:</label>
+      <select id="subType">
+        <option>Periapical</option>
+        <option>Bitewing</option>
+        <option>Occlusal</option>
+        <option>Panoramic</option>
+        <option>Ceph</option>
+        <option>Other</option>
+      </select>
+      
+      <label>อาจารย์ผู้ควบคุม:</label>
+      <select id="subSupervisor">
+        <option value="t01">อ. ดร. วิทยา พานิช</option>
+        <option value="t02">อ. ดร. สมชาย เจริญ</option>
+        <option value="t03">อ. ดร. สุนิสา วงศ์ดี</option>
+      </select>
+      
+      <label>จำนวนครั้งที่ถ่าย (รวมซ่อม):</label>
+      <input type="number" id="subRetakeCount" min="1" value="1" placeholder="1 = ถ่ายครั้งเดียวผ่าน, 2 = ซ่อม 1 ครั้ง">
+      <div class="note">ตัวอย่าง: 1 = ถ่ายครั้งเดียวผ่าน | 2 = ซ่อม 1 ครั้ง | 3 = ซ่อม 2 ครั้ง</div>
+      
+      <label>หมายเหตุ / ข้อความถึงอาจารย์:</label>
+      <textarea id="subNote" placeholder="คำอธิบายเพิ่มเติม หรือคำถามสำหรับอาจารย์"></textarea>
+      
+      <label>แนบภาพ (สามารถแนบหลายภาพ):</label>
+      <input type="file" id="subFiles" accept="image/*" multiple />
+      
+      <div class="interpret-box">
+        <h4>🧮 คำนวณคะแนน Interpretation</h4>
+        <div class="note" style="margin-bottom:15px">กรอกจำนวนจุดผิดพลาดแต่ละประเภท ระบบจะคำนวณคะแนนให้อัตโนมัติ</div>
+        
+        <div class="alert-box alert-warning" style="font-size:12px">
+          <strong>⚠️ เกณฑ์การให้คะแนน:</strong><br>
+          • เคสพิ่นธรรมดา 1 ชิ้น = 0.50 คะแนน<br>
+          • เคส pulp 1 ชิ้น และเครื่องร่อยโครอบปลายราก = 0.75 คะแนน<br>
+          • เคสพิ่น/pulp ที่มี 2-4 ชิ้น = 1.00 คะแนน<br>
+          • เคสซับซ้อน 5 ชิ้นขึ้นไป = 1.20 คะแนน
+        </div>
+        
+        <div class="row">
+          <div class="col">
+            <label style="font-size:13px">เคส x0.50:</label>
+            <input type="number" id="interpW050" min="0" value="0" oninput="calculateInterprete()">
+          </div>
+          <div class="col">
+            <label style="font-size:13px">เคส x0.75:</label>
+            <input type="number" id="interpW075" min="0" value="0" oninput="calculateInterprete()">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col">
+            <label style="font-size:13px">เคส x1.00:</label>
+            <input type="number" id="interpW100" min="0" value="0" oninput="calculateInterprete()">
+          </div>
+          <div class="col">
+            <label style="font-size:13px">เคส x1.20:</label>
+            <input type="number" id="interpW120" min="0" value="0" oninput="calculateInterprete()">
+          </div>
+        </div>
+        
+        <div class="interpret-result">
+          <p style="margin:0;font-size:14px">คะแนนรวม Interpretation</p>
+          <h3 id="interpResult">0</h3>
+          <p style="margin:5px 0 0 0;font-size:12px;opacity:0.9" id="interpBreakdown"></p>
+        </div>
+      </div>
+      
+      <button onclick="submitClinic()">บันทึกและส่งให้อาจารย์</button>
+    </div>
+    
+    <div class="panel">
+      <h3>ผลงานที่ส่งแล้ว</h3>
+      <div id="mySubmissions"></div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  loadMySubmissions();
+  calculateInterprete();
+}
+
+function calculateInterprete(){
+  const w050 = Number(document.getElementById('interpW050')?.value) || 0;
+  const w075 = Number(document.getElementById('interpW075')?.value) || 0;
+  const w100 = Number(document.getElementById('interpW100')?.value) || 0;
+  const w120 = Number(document.getElementById('interpW120')?.value) || 0;
+  
+  const score050 = w050 * 0.50;
+  const score075 = w075 * 0.75;
+  const score100 = w100 * 1.00;
+  const score120 = w120 * 1.20;
+  
+  const total = score050 + score075 + score100 + score120;
+  
+  const resultEl = document.getElementById('interpResult');
+  const breakdownEl = document.getElementById('interpBreakdown');
+  
+  if(resultEl) resultEl.innerText = total.toFixed(2);
+  if(breakdownEl) breakdownEl.innerHTML = `
+    (${w050} × 0.50) + (${w075} × 0.75) + (${w100} × 1.00) + (${w120} × 1.20) = ${total.toFixed(2)}
+  `;
+}
+
+function submitClinic(){
+  const clinicDate = document.getElementById('subDate').value;
+  const dn = document.getElementById('subDN').value.trim();
+  const xrayType = document.getElementById('subType').value;
+  const note = document.getElementById('subNote').value;
+  const supervisor = document.getElementById('subSupervisor').value;
+  const retakeCount = Number(document.getElementById('subRetakeCount').value) || 1;
+  const files = document.getElementById('subFiles').files;
+  
+  if(!clinicDate||!dn||!xrayType){
+    alert('กรุณากรอกวันที่ DN และประเภทฟิล์ม');
+    return;
+  }
+  
+  if(!files || files.length===0){
+    alert('กรุณาเลือกไฟล์อย่างน้อย 1 รูป');
+    return;
+  }
+  
+  const fileArr = Array.from(files);
+  const readers = fileArr.map(f => new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = e => rej(e);
+    r.readAsDataURL(f);
+  }));
+  
+  Promise.all(readers).then(dataUrls=>{
+    const rec = {
+      id: genId(),
+      username: currentUser,
+      type: 'clinic',
+      clinicDate,
+      dn,
+      xrayType,
+      images: dataUrls,
+      note,
+      supervisor,
+      retakeCount,
+      interprete: 0,
+      teacherScore: null,
+      reviewed: false,
+      teacherComment: '',
+      comments: note ? [{from:'student', text:note, time:new Date().toISOString()}] : []
+    };
+    records.push(rec);
+    saveAll();
+    
+    showToothRaceAnimation();
+    
+    document.getElementById('subDN').value='';
+    document.getElementById('subNote').value='';
+    document.getElementById('subFiles').value='';
+    document.getElementById('subRetakeCount').value='1';
+    document.getElementById('interpW050').value='0';
+    document.getElementById('interpW075').value='0';
+    document.getElementById('interpW100').value='0';
+    document.getElementById('interpW120').value='0';
+    calculateInterprete();
+    loadMySubmissions();
+  }).catch(err=>{
+    alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
+  });
+}
+
+function showToothRaceAnimation(){
+  const myClinics = records.filter(r=>r.username===currentUser && r.type==='clinic');
+  const totalFilms = myClinics.length;
+  const minRequired = settings.minimumFilmsRequired || 30;
+  const completedPct = Math.min((totalFilms / minRequired) * 100, 100);
+  
+  const modal = document.createElement('div');
+  modal.className = 'modal show';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3 style="text-align:center;color:var(--purple)">🎉 ส่งงานสำเร็จ!</h3>
+      <div class="race-track">
+        <div class="tooth-runner running" id="toothRunner">🦷</div>
+        <div class="finish-line">
+          <div class="finish-pole"></div>
+          <div class="finish-flag"></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:20px">
+        <h2 style="color:var(--purple)">${completedPct.toFixed(1)}%</h2>
+        <p>ความคืบหน้าการส่งงาน</p>
+        <p class="small">ส่งแล้ว ${totalFilms} จาก ${minRequired} ฟิล์ม</p>
+        ${totalFilms >= minRequired ? '<p class="ok" style="font-size:18px;margin-top:10px">🏆 ครบเป้าหมายแล้ว!</p>' : `<p class="small">เหลืออีก ${minRequired - totalFilms} ฟิล์ม</p>`}
+      </div>
+      <button onclick="this.parentElement.parentElement.remove()" style="margin-top:20px">
+        ปิด
+      </button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  
+  setTimeout(()=>{
+    const tooth = document.getElementById('toothRunner');
+    if(tooth) tooth.style.left = `calc(${Math.min(completedPct, 92)}% - 30px)`;
+  }, 100);
+  
+  setTimeout(()=>{
+    modal.remove();
+  }, 5000);
+}
+
+function loadMySubmissions(){
+  const area = document.getElementById('mySubmissions');
+  if(!area) return;
+  
+  const my = records.filter(r=>r.username===currentUser && r.type==='clinic')
+    .sort((a,b)=>b.clinicDate.localeCompare(a.clinicDate));
+  
+  if(my.length===0){
+    area.innerHTML='<div class="small">ยังไม่มีผลงานที่ส่ง</div>';
+    return;
+  }
+  
+  let html = '<table class="table"><thead><tr><th>วันที่</th><th>DN</th><th>ประเภท</th><th>รูป</th><th>ถ่าย/ซ่อม</th><th>สถานะ</th><th>คะแนน</th><th>ดู</th></tr></thead><tbody>';
+  my.forEach(r=>{
+    const thumb = r.images && r.images.length ? 
+      `<img src="${r.images[0]}" class="thumb" onclick="viewImage('${r.images[0]}')">` : '-';
+    const status = r.reviewed ? '<span class="ok">✓ ตรวจแล้ว</span>' : '<span class="missing">⏳ รอตรวจ</span>';
+    const score = r.teacherScore!==null ? r.teacherScore : '-';
+    const retake = r.retakeCount > 1 ? `<span class="warning">${r.retakeCount}x</span>` : `<span class="ok">${r.retakeCount}x</span>`;
+    html += `<tr>
+      <td>${r.clinicDate}</td>
+      <td>${r.dn}</td>
+      <td>${r.xrayType}</td>
+      <td>${thumb}</td>
+      <td>${retake}</td>
+      <td>${status}</td>
+      <td><strong>${score}</strong></td>
+      <td><button class="secondary" onclick="viewSubmissionDetail('${r.id}')">ดูรายละเอียด</button></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  area.innerHTML = html;
+}
+
+function viewSubmissionDetail(recId){
+  const r = records.find(rec=>rec.id===recId);
+  if(!r) return alert('ไม่พบรายการ');
+  
+  const modal = document.createElement('div');
+  modal.className = 'modal show';
+  
+  let commentsHtml = '';
+  if(r.comments && r.comments.length > 0){
+    commentsHtml = '<div style="margin-top:15px"><h4>ประวัติการสนทนา</h4>';
+    r.comments.forEach(c=>{
+      const fromLabel = c.from === 'student' ? 'นิสิต' : 'อาจารย์';
+      const time = new Date(c.time).toLocaleString('th-TH');
+      commentsHtml += `
+        <div class="comment-box">
+          <div class="comment-header">
+            <span class="comment-from">${fromLabel}</span>
+            <span>${time}</span>
+          </div>
+          <div class="comment-text">${c.text}</div>
+        </div>
+      `;
+    });
+    commentsHtml += '</div>';
+  }
+  
+  const imagesHtml = r.images && r.images.length ? 
+    r.images.map(img=>`<img src="${img}" style="max-width:100%;display:block;margin:10px 0;border-radius:8px;cursor:pointer" onclick="viewImage('${img}')">`).join('') 
+    : '<div class="small">ไม่มีรูป</div>';
+  
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h3>รายละเอียดงาน: ${r.xrayType} (${r.clinicDate})</h3>
+      <div style="margin:15px 0">
+        <p><strong>DN:</strong> ${r.dn}</p>
+        <p><strong>ประเภท:</strong> ${r.xrayType}</p>
+        <p><strong>อาจารย์:</strong> ${r.supervisor}</p>
+        <p><strong>จำนวนครั้งที่ถ่าย:</strong> ${r.retakeCount} ครั้ง ${r.retakeCount > 1 ? '(ซ่อม '+(r.retakeCount-1)+' ครั้ง)':''}</p>
+        <p><strong>สถานะ:</strong> ${r.reviewed ? '<span class="ok">✓ ตรวจแล้ว</span>' : '<span class="missing">⏳ รอตรวจ</span>'}</p>
+        ${r.teacherScore!==null ? `<p><strong>คะแนน:</strong> <span style="font-size:24px;color:var(--purple)">${r.teacherScore}</span></p>` : ''}
+      </div>
+      
+      <div style="margin:15px 0">
+        <h4>รูปภาพ</h4>
+        ${imagesHtml}
+      </div>
+      
+      ${commentsHtml}
+      
+      <button onclick="this.parentElement.parentElement.remove()" style="margin-top:15px">
+        ปิด
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function viewImage(src){
+  window.open(src, '_blank');
+}
+
+// ========== Student: Attendance ==========
+function studentAttendanceUI(){
+  const html = `
+    <div class="panel">
+      <h3>ลงชื่อปฏิบัติงาน</h3>
+      <div class="small">ต้องลงชื่ออย่างน้อย ${settings.attendanceRequiredCount} ครั้ง (80%)</div>
+      
+      <label>วันที่:</label>
+      <input type="date" id="attDate" />
+      
+      <label>เวลาเข้า:</label>
+      <input type="time" id="attIn" />
+      
+      <label>เวลาออก:</label>
+      <input type="time" id="attOut" />
+      
+      <label>อาจารย์ผู้ควบคุม:</label>
+      <select id="attSup">
+        <option value="t01">อ. ดร. วิทยา พานิช</option>
+        <option value="t02">อ. ดร. สมชาย เจริญ</option>
+        <option value="t03">อ. ดร. สุนิสา วงศ์ดี</option>
+      </select>
+      
+      <button onclick="saveAttendance()">บันทึกลงชื่อ</button>
+    </div>
+    
+    <div class="panel">
+      <h3>ประวัติลงชื่อ</h3>
+      <div id="attHistory"></div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  loadAttendance();
+}
+
+function saveAttendance(){
+  const date = document.getElementById('attDate').value;
+  const inTime = document.getElementById('attIn').value;
+  const outTime = document.getElementById('attOut').value;
+  const sup = document.getElementById('attSup').value;
+  
+  if(!date||!inTime||!outTime||!sup){
+    alert('กรุณากรอกข้อมูลให้ครบ');
+    return;
+  }
+  
+  records.push({
+    id:genId(), 
+    username:currentUser, 
+    type:'attendance', 
+    date, 
+    inTime, 
+    outTime, 
+    supervisor:sup
+  });
+  saveAll();
+  alert('บันทึกลงชื่อเรียบร้อย');
+  
+  document.getElementById('attDate').value='';
+  document.getElementById('attIn').value='';
+  document.getElementById('attOut').value='';
+  loadAttendance();
+}
+
+function loadAttendance(){
+  const el = document.getElementById('attHistory');
+  if(!el) return;
+  
+  const my = records.filter(r=>r.username===currentUser && r.type==='attendance')
+    .sort((a,b)=>b.date.localeCompare(a.date));
+  
+  if(my.length===0){
+    el.innerHTML='<div class="small">ยังไม่มีการลงชื่อ</div>';
+    return;
+  }
+  
+  let html = '<table class="table"><thead><tr><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>อาจารย์</th></tr></thead><tbody>';
+  my.forEach(r=> {
+    const supName = users.find(u=>u.username===r.supervisor)?.fullName || r.supervisor;
+    html += `<tr><td>${r.date}</td><td>${r.inTime}</td><td>${r.outTime}</td><td>${supName}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+// ========== Student: Dashboard ==========
+function studentDashboardUI(){
+  const html = `
+    <div class="panel">
+      <h3>📊 Dashboard ของฉัน</h3>
+      
+      <div id="alertArea"></div>
+      
+      <div class="row">
+        <div class="col">
+          <div class="stat-card">
+            <p>คะแนนรวม (รายวิชานี้ 50%)</p>
+            <h2 id="myTotal">0</h2>
+            <p>เกรด: <span id="myGrade" style="font-size:24px;font-weight:600">-</span></p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-card" style="background:linear-gradient(135deg, #2fbf71, #1a8f50)">
+            <p>ส่งงานแล้ว</p>
+            <h2 id="submittedCount">0</h2>
+            <p id="submittedTypes">-</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="background:#f9f5ff">
+        <h4>🏁 ความคืบหน้าการส่งงาน</h4>
+        <div class="race-track">
+          <div class="tooth-runner" id="dashboardTooth">🦷</div>
+          <div class="finish-line">
+            <div class="finish-pole"></div>
+            <div class="finish-flag"></div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:10px">
+          <h3 id="progressPct" style="color:var(--purple)">0%</h3>
+          <p class="small">ส่งแล้ว <span id="totalFilms">0</span> / <span id="minFilms">30</span> ฟิล์ม</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>📋 รายการที่ต้องส่ง</h4>
+        <div id="filmCounters"></div>
+        <div class="task-grid" id="taskGrid"></div>
+      </div>
+
+      <div class="panel">
+        <h4>📈 กราฟการส่งงานรายสัปดาห์</h4>
+        <div class="chart-container">
+          <div class="bar-chart" id="weeklyChart"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>🏆 Leaderboard</h4>
+        <div id="leaderboardArea"></div>
+      </div>
+
+      <div class="panel">
+        <h4>✅ สถานะการเข้าเรียน</h4>
+        <div id="myAttendanceStatus"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  renderStudentDashboard();
+}
+
+function renderStudentDashboard(){
+  const totals = computeScoresForAll();
+  const me = totals.scoresByUser[currentUser] || {total:0, breakdown:{}};
+  
+  const finalScore = me.total * 2;
+  document.getElementById('myTotal').innerText = finalScore.toFixed(1) + '%';
+  document.getElementById('myGrade').innerText = scoreToGrade(finalScore);
+  
+  renderStudentAlerts();
+  
+  const myClinics = records.filter(r=>r.username===currentUser && r.type==='clinic');
+  const myTypes = [...new Set(myClinics.map(x=>x.xrayType))];
+  document.getElementById('submittedCount').innerText = myClinics.length;
+  document.getElementById('submittedTypes').innerText = myTypes.length + ' ประเภท';
+  
+  const minFilms = settings.minimumFilmsRequired || 30;
+  const completedPct = Math.min((myClinics.length / minFilms) * 100, 100);
+  document.getElementById('progressPct').innerText = completedPct.toFixed(1) + '%';
+  document.getElementById('totalFilms').innerText = myClinics.length;
+  document.getElementById('minFilms').innerText = minFilms;
+  
+  setTimeout(()=>{
+    const tooth = document.getElementById('dashboardTooth');
+    if(tooth) tooth.style.left = `calc(${Math.min(completedPct, 92)}% - 30px)`;
+  }, 300);
+  
+  renderFilmCounters();
+  
+  const required = settings.requiredTasks || [];
+  const taskGrid = document.getElementById('taskGrid');
+  let taskHtml = '';
+  required.forEach(task=>{
+    const taskFilms = myClinics.filter(c=>c.xrayType===task);
+    const completed = taskFilms.length > 0;
+    const icon = getTaskIcon(task);
+    const itemClass = completed ? 'completed' : 'incomplete';
+    taskHtml += `
+      <div class="task-item ${itemClass}">
+        <div class="task-count">${taskFilms.length}</div>
+        <div class="task-icon">${icon}</div>
+        <h4>${task}</h4>
+        <p style="margin-top:5px">${completed?'✓ มีแล้ว':'⚠️ ยังไม่ส่ง'}</p>
+      </div>
+    `;
+  });
+  taskGrid.innerHTML = taskHtml;
+  
+  renderWeeklyChart();
+  
+  const attCount = records.filter(r=>r.username===currentUser && r.type==='attendance').length;
+  const attReq = settings.attendanceRequiredCount;
+  const attPct = attReq > 0 ? (attCount / attReq) * 100 : 0;
+  const attStatus = attCount>=attReq ? 
+    `<div style="color:var(--ok);font-size:18px">✓ ผ่าน (${attCount}/${attReq} ครั้ง)</div>
+     <div class="progress"><i style="width:100%;background:var(--ok)"></i></div>` : 
+    `<div style="color:var(--danger);font-size:18px">⚠️ ยังไม่ผ่าน (${attCount}/${attReq} ครั้ง)</div>
+     <div class="progress"><i style="width:${attPct}%"></i></div>`;
+  document.getElementById('myAttendanceStatus').innerHTML = attStatus;
+  
+  renderLeaderboard();
+}
+
+function renderStudentAlerts(){
+  const el = document.getElementById('alertArea');
+  if(!el) return;
+  
+  const alerts = [];
+  const myClinics = records.filter(r=>r.username===currentUser && r.type==='clinic');
+  const myTypes = [...new Set(myClinics.map(x=>x.xrayType))];
+  const required = settings.requiredTasks || [];
+  const minFilms = settings.minimumFilmsRequired || 30;
+  const attCount = records.filter(r=>r.username===currentUser && r.type==='attendance').length;
+  const attReq = settings.attendanceRequiredCount;
+  
+  const missingTypes = required.filter(t => !myTypes.includes(t));
+  if(missingTypes.length > 0){
+    alerts.push({
+      type: 'danger',
+      msg: `⚠️ <strong>ยังส่งฟิล์มไม่ครบประเภท!</strong> ขาด: ${missingTypes.join(', ')} (เหลืออีก ${missingTypes.length} ประเภท)`
+    });
+  }
+  
+  if(myClinics.length < minFilms){
+    alerts.push({
+      type: 'warning',
+      msg: `📸 <strong>จำนวนฟิล์มยังไม่ครบ!</strong> ส่งแล้ว ${myClinics.length} จาก ${minFilms} ฟิล์ม (เหลืออีก ${minFilms - myClinics.length} ฟิล์ม)`
+    });
+  }
+  
+  if(attCount < attReq){
+    alerts.push({
+      type: 'warning',
+      msg: `✋ <strong>ลงชื่อยังไม่ครบ!</strong> ลงแล้ว ${attCount} จาก ${attReq} ครั้ง (เหลืออีก ${attReq - attCount} ครั้ง)`
+    });
+  }
+  
+  const pending = myClinics.filter(c => !c.reviewed).length;
+  if(pending > 0){
+    alerts.push({
+      type: 'warning',
+      msg: `⏳ มีงานรอตรวจ ${pending} ชิ้น`
+    });
+  }
+  
+  if(alerts.length === 0){
+    el.innerHTML = '<div class="alert-box alert-success">✅ <strong>ยอดเยี่ยม!</strong> คุณส่งงานครบถ้วนแล้ว</div>';
+  } else {
+    let html = '';
+    alerts.forEach(a => {
+      html += `<div class="alert-box alert-${a.type}">${a.msg}</div>`;
+    });
+    el.innerHTML = html;
+  }
+}
+
+function renderFilmCounters(){
+  const el = document.getElementById('filmCounters');
+  if(!el) return;
+  
+  const myClinics = records.filter(r=>r.username===currentUser && r.type==='clinic');
+  const required = settings.requiredTasks || [];
+  
+  let html = '<div style="text-align:center;margin:15px 0">';
+  required.forEach(task => {
+    const count = myClinics.filter(c=>c.xrayType===task).length;
+    const cssClass = count > 0 ? 'complete' : 'incomplete';
+    html += `<span class="film-counter ${cssClass}">${task}: ${count} ฟิล์ม</span>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function getTaskIcon(task){
+  const icons = {
+    'Periapical': '🦷',
+    'Bitewing': '😬',
+    'Occlusal': '👄',
+    'Panoramic': '📷',
+    'Ceph': '💀'
+  };
+  return icons[task] || '📋';
+}
+
+function renderWeeklyChart(){
+  const el = document.getElementById('weeklyChart');
+  if(!el) return;
+  
+  const myClinics = records.filter(r=>r.username===currentUser && r.type==='clinic')
+    .sort((a,b)=>a.clinicDate.localeCompare(b.clinicDate));
+  
+  const weeks = {};
+  myClinics.forEach(c=>{
+    const date = new Date(c.clinicDate);
+    const weekNum = getWeekNumber(date);
+    const key = `W${weekNum}`;
+    weeks[key] = (weeks[key] || 0) + 1;
+  });
+  
+  const now = new Date();
+  const lastWeeks = [];
+  for(let i=5; i>=0; i--){
+    const d = new Date(now);
+    d.setDate(d.getDate() - (i*7));
+    const wNum = getWeekNumber(d);
+    lastWeeks.push({label: `W${wNum}`, count: weeks[`W${wNum}`] || 0});
+  }
+  
+  const maxCount = Math.max(...lastWeeks.map(w=>w.count), 1);
+  
+  let html = '';
+  lastWeeks.forEach(w=>{
+    const height = (w.count / maxCount) * 100;
+    html += `
+      <div class="bar" style="height:${height}%">
+        <div class="bar-value">${w.count}</div>
+        <div class="bar-label">${w.label}</div>
+      </div>
+    `;
+  });
+  
+  el.innerHTML = html;
+}
+
+function getWeekNumber(d){
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+}
+
+function scoreToGrade(score){
+  if(score >= 80) return 'A';
+  if(score >= 75) return 'B+';
+  if(score >= 70) return 'B';
+  if(score >= 65) return 'C+';
+  if(score >= 60) return 'C';
+  if(score >= 55) return 'D+';
+  if(score >= 50) return 'D';
+  return 'F';
+}
+
+function renderLeaderboard(){
+  const el = document.getElementById('leaderboardArea');
+  if(!el) return;
+  
+  const totals = computeScoresForAll();
+  const arr = Object.entries(totals.scoresByUser)
+    .map(([u,v])=>({
+      username:u,
+      total:v.total * 2,
+      name:(users.find(x=>x.username===u)||{}).fullName||u
+    }))
+    .sort((a,b)=>b.total-a.total);
+  
+  if(arr.length===0){
+    el.innerHTML='<div class="small">ยังไม่มีคะแนน</div>';
+    return;
+  }
+  
+  let html = '<div>';
+  arr.forEach((r,i)=> {
+    const isMe = r.username === currentUser;
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    const style = isMe ? 'background:#f0e7ff;font-weight:600;border:2px solid var(--purple)' : '';
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:8px;margin-bottom:8px;background:white;${style}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">${medal || (i+1)}</span>
+        <div>
+          <div style="font-weight:600">${r.name}</div>
+          <div style="font-size:12px;color:#666">${r.username}</div>
+        </div>
+      </div>
+      <div style="font-size:20px;font-weight:600;color:var(--purple)">${r.total.toFixed(1)}%</div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ========== Teacher: Dashboard ==========
+function teacherDashboardUI(){
+  const html = `
+    <div class="panel">
+      <h3>📊 Dashboard รวม - ภาพรวมทั้งหมด</h3>
+      
+      <div class="row">
+        <div class="col">
+          <div class="stat-card">
+            <p>จำนวนนิสิตทั้งหมด</p>
+            <h2 id="totalStudents">0</h2>
+            <p>คน</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-card" style="background:linear-gradient(135deg, #2fbf71, #1a8f50)">
+            <p>งานที่ส่งแล้ว</p>
+            <h2 id="totalSubmissions">0</h2>
+            <p>ชิ้นงาน</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="stat-card" style="background:linear-gradient(135deg, #ff9800, #f57c00)">
+            <p>รอตรวจ</p>
+            <h2 id="pendingReview">0</h2>
+            <p>ชิ้นงาน</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="background:#f9f5ff">
+        <h4>🎯 เปอร์เซ็นต์การส่งงานของนิสิตทั้งหมด</h4>
+        <div class="race-track">
+          <div class="tooth-runner" id="overallTooth">🦷</div>
+          <div class="finish-line">
+            <div class="finish-pole"></div>
+            <div class="finish-flag"></div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:10px">
+          <h2 id="overallProgressPct" style="color:var(--purple)">0%</h2>
+          <p class="small">ความครบถ้วนของการส่งงานเฉลี่ยทั้งหมด</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>📊 สถิติการส่งงานแต่ละประเภท</h4>
+        <div class="chart-container">
+          <div id="taskTypeChart"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>👥 สถานะการส่งงานของแต่ละคน</h4>
+        <div id="studentProgressList"></div>
+      </div>
+
+      <div class="panel">
+        <h4>📈 กราฟคะแนนเฉลี่ย</h4>
+        <div class="chart-container">
+          <div class="bar-chart" id="gradeDistribution"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  renderTeacherDashboard();
+}
+
+function renderTeacherDashboard(){
+  const students = users.filter(u=>u.role==='student');
+  const allClinics = records.filter(r=>r.type==='clinic');
+  const pending = allClinics.filter(r=>!r.reviewed);
+  
+  document.getElementById('totalStudents').innerText = students.length;
+  document.getElementById('totalSubmissions').innerText = allClinics.length;
+  document.getElementById('pendingReview').innerText = pending.length;
+  
+  const minFilms = settings.minimumFilmsRequired || 30;
+  let totalProgress = 0;
+  students.forEach(s=>{
+    const myFilms = allClinics.filter(r=>r.username===s.username).length;
+    const pct = Math.min((myFilms / minFilms) * 100, 100);
+    totalProgress += pct;
+  });
+  const avgProgress = students.length > 0 ? totalProgress / students.length : 0;
+  document.getElementById('overallProgressPct').innerText = avgProgress.toFixed(1) + '%';
+  
+  setTimeout(()=>{
+    const tooth = document.getElementById('overallTooth');
+    if(tooth) tooth.style.left = `calc(${Math.min(avgProgress, 92)}% - 30px)`;
+  }, 300);
+  
+  renderTaskTypeChart();
+  renderStudentProgressList();
+  renderGradeDistribution();
+}
+
+function renderTaskTypeChart(){
+  const el = document.getElementById('taskTypeChart');
+  if(!el) return;
+  
+  const required = settings.requiredTasks || [];
+  const students = users.filter(u=>u.role==='student');
+  const allClinics = records.filter(r=>r.type==='clinic');
+  
+  let html = '<div class="bar-chart" style="height:250px">';
+  required.forEach(task=>{
+    const submitted = students.filter(s=>{
+      const myTypes = [...new Set(allClinics.filter(r=>r.username===s.username).map(x=>x.xrayType))];
+      return myTypes.includes(task);
+    }).length;
+    
+    const pct = students.length > 0 ? (submitted / students.length) * 100 : 0;
+    const height = pct;
+    
+    html += `
+      <div class="bar" style="height:${height}%">
+        <div class="bar-value">${submitted}/${students.length}</div>
+        <div class="bar-label">${task}</div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  
+  el.innerHTML = html;
+}
+
+function renderStudentProgressList(){
+  const el = document.getElementById('studentProgressList');
+  if(!el) return;
+  
+  const students = users.filter(u=>u.role==='student');
+  const minFilms = settings.minimumFilmsRequired || 30;
+  const allClinics = records.filter(r=>r.type==='clinic');
+  
+  let html = '<div style="display:flex;flex-direction:column;gap:10px">';
+  students.forEach(s=>{
+    const myFilms = allClinics.filter(r=>r.username===s.username);
+    const pct = Math.min((myFilms.length / minFilms) * 100, 100);
+    const color = pct >= 100 ? 'var(--ok)' : pct >= 50 ? 'var(--purple)' : 'var(--danger)';
+    
+    html += `
+      <div style="background:white;padding:15px;border-radius:8px;border:1px solid #e9defa">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div>
+            <strong>${s.fullName}</strong>
+            <div class="small">${s.username} - ส่งแล้ว ${myFilms.length} ฟิล์ม</div>
+          </div>
+          <div style="font-size:20px;font-weight:600;color:${color}">${pct.toFixed(0)}%</div>
+        </div>
+        <div class="progress">
+          <i style="width:${pct}%;background:${color}"></i>
+        </div>
+        <div class="small" style="margin-top:5px">
+          ส่งแล้ว ${myFilms.length} จาก ${minFilms} ฟิล์ม
+          ${pct >= 100 ? '<span class="ok"> ✓ ครบแล้ว</span>' : '<span class="missing"> ยังไม่ครบ</span>'}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  
+  el.innerHTML = html;
+}
+
+function renderGradeDistribution(){
+  const el = document.getElementById('gradeDistribution');
+  if(!el) return;
+  
+  const totals = computeScoresForAll();
+  const grades = {A:0, B:0, C:0, D:0, F:0};
+  
+  Object.values(totals.scoresByUser).forEach(s=>{
+    const finalScore = s.total * 2;
+    const grade = scoreToGrade(finalScore);
+    if(grade.startsWith('A')) grades.A++;
+    else if(grade.startsWith('B')) grades.B++;
+    else if(grade.startsWith('C')) grades.C++;
+    else if(grade.startsWith('D')) grades.D++;
+    else grades.F++;
+  });
+  
+  const maxCount = Math.max(...Object.values(grades), 1);
+  
+  let html = '';
+  Object.entries(grades).forEach(([grade, count])=>{
+    const height = (count / maxCount) * 100;
+    html += `
+      <div class="bar" style="height:${height}%">
+        <div class="bar-value">${count}</div>
+        <div class="bar-label">${grade}</div>
+      </div>
+    `;
+  });
+  
+  el.innerHTML = html;
+}
+
+// ========== Teacher: Review ==========
+function teacherReviewUI(){
+  const html = `
+    <div class="panel">
+      <h3>ตรวจงานนิสิต</h3>
+      <div class="small">คลิกที่นิสิตเพื่อดูผลงานและให้คะแนน</div>
+      <div id="teacherStudentList"></div>
+      <div id="teacherReviewArea" style="margin-top:20px"></div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  loadTeacherStudentList();
+}
+
+function loadTeacherStudentList(){
+  const students = users.filter(u=>u.role==='student');
+  const area = document.getElementById('teacherStudentList');
+  
+  if(students.length===0){
+    area.innerHTML = '<div class="small">ยังไม่มีนิสิต</div>';
+    return;
+  }
+  
+  let html = '<div class="row">';
+  students.forEach(s=>{
+    const attCount = records.filter(r=>r.username===s.username && r.type==='attendance').length;
+    const workCount = records.filter(r=>r.username===s.username && r.type==='clinic').length;
+    const pending = records.filter(r=>r.username===s.username && r.type==='clinic' && !r.reviewed).length;
+    
+    html += `
+      <div class="col panel">
+        <strong>${s.fullName}</strong>
+        <div class="small">${s.username} — ปี ${s.year||'-'}</div>
+        <div class="small">ลงชื่อ: ${attCount} | ส่งงาน: ${workCount}</div>
+        ${pending > 0 ? `<div class="missing">⏳ รอตรวจ: ${pending}</div>` : '<div class="ok">✓ ตรวจครบแล้ว</div>'}
+        <button onclick="openStudentReview('${s.username}')" style="margin-top:10px">
+          ดูผลงาน
+        </button>
+      </div>
+    `;
+  });
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+function openStudentReview(username){
+  const area = document.getElementById('teacherReviewArea');
+  const subs = records.filter(r=>r.username===username && r.type==='clinic')
+    .sort((a,b)=>b.clinicDate.localeCompare(a.clinicDate));
+  const user = users.find(u=>u.username===username);
+  
+  let html = `<h4>ผลงานของ ${user?.fullName || username}</h4>`;
+  
+  if(subs.length===0){
+    html += '<div class="small">ยังไม่มีผลงาน</div>';
+    area.innerHTML = html;
+    return;
+  }
+  
+  html += `<table class="table">
+    <thead>
+      <tr>
+        <th>วันที่</th>
+        <th>DN</th>
+        <th>ประเภท</th>
+        <th>รูป</th>
+        <th>ถ่าย/ซ่อม</th>
+        <th>สถานะ</th>
+        <th>คะแนน</th>
+        <th>จัดการ</th>
+      </tr>
+    </thead>
+    <tbody>`;
+  
+  subs.forEach((r,idx)=>{
+    const thumb = r.images && r.images.length ? 
+      `<img src="${r.images[0]}" class="thumb" onclick="viewImage('${r.images[0]}')">` : '-';
+    const status = r.reviewed ? '<span class="ok">✓ ตรวจแล้ว</span>' : '<span class="missing">⏳ รอตรวจ</span>';
+    const score = r.teacherScore!==null ? r.teacherScore : '-';
+    const retake = r.retakeCount > 1 ? `<span class="warning">${r.retakeCount}x</span>` : `<span class="ok">${r.retakeCount}x</span>`;
+    
+    html += `<tr>
+      <td>${r.clinicDate}</td>
+      <td>${r.dn}</td>
+      <td>${r.xrayType}</td>
+      <td>${thumb}</td>
+      <td>${retake}</td>
+      <td>${status}</td>
+      <td><strong>${score}</strong></td>
+      <td>
+        <div class="btn-group">
+          <button onclick="openGradeModal('${username}', '${r.id}')">ให้คะแนน</button>
+          <button onclick="deleteSubmission('${r.id}')" class="secondary">ลบ</button>
+        </div>
+      </td>
+    </tr>`;
+  });
+  
+  html += '</tbody></table>';
+  area.innerHTML = html;
+}
+
+function openGradeModal(username, recId){
+  const r = records.find(rec=>rec.id===recId);
+  if(!r) return alert('ไม่พบรายการ');
+  
+  let commentsHtml = '';
+  if(r.comments && r.comments.length > 0){
+    commentsHtml = '<div style="margin-top:15px"><h4>ประวัติการสนทนา</h4>';
+    r.comments.forEach(c=>{
+      const fromLabel = c.from === 'student' ? 'นิสิต' : 'อาจารย์';
+      const time = new Date(c.time).toLocaleString('th-TH');
+      commentsHtml += `
+        <div class="comment-box">
+          <div class="comment-header">
+            <span class="comment-from">${fromLabel}</span>
+            <span>${time}</span>
+          </div>
+          <div class="comment-text">${c.text}</div>
+        </div>
+      `;
+    });
+    commentsHtml += '</div>';
+  }
+  
+  const html = `
+    <div class="panel" style="background:#f9f5ff">
+      <h4>ให้คะแนน: ${username} — ${r.xrayType} (${r.clinicDate})</h4>
+      <div class="row">
+        <div class="col">
+          <strong>รูปภาพ:</strong><br/>
+          ${r.images && r.images.length ? 
+            r.images.map(img=>`<img src="${img}" style="max-width:100%;display:block;margin:10px 0;border-radius:8px;cursor:pointer" onclick="viewImage('${img}')">`).join('') 
+            : '<div class="small">ไม่มีรูป</div>'}
+        </div>
+        <div class="col">
+          <div><strong>DN:</strong> ${r.dn}</div>
+          <div><strong>ประเภท:</strong> ${r.xrayType}</div>
+          <div><strong>จำนวนครั้งที่ถ่าย:</strong> ${r.retakeCount} ครั้ง ${r.retakeCount > 1 ? '<span class="warning">(ซ่อม '+(r.retakeCount-1)+' ครั้ง)</span>' : '<span class="ok">(ผ่านครั้งเดียว)</span>'}</div>
+          <div><strong>อาจารย์ผู้ควบคุม:</strong> ${r.supervisor}</div>
+          
+          ${commentsHtml}
+          
+          <div style="margin-top:15px">
+            <label><strong>คะแนนที่ให้ (0-100):</strong></label>
+            <input type="number" id="gradeInput" min="0" max="100" 
+              value="${r.teacherScore!==null?r.teacherScore:70}">
+          </div>
+          
+          <div style="margin-top:10px">
+            <label><strong>คอมเมนต์ของอาจารย์:</strong></label>
+            <textarea id="gradeComment">${r.teacherComment||''}</textarea>
+          </div>
+          
+          <div class="btn-group" style="margin-top:15px">
+            <button onclick="saveGrade('${recId}')">บันทึกคะแนนและส่งข้อความ</button>
+            <button class="secondary" onclick="openStudentReview('${username}')">ยกเลิก</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('teacherReviewArea').innerHTML = html;
+}
+
+function saveGrade(recId){
+  const r = records.find(rec=>rec.id===recId);
+  if(!r) return alert('ไม่พบรายการ');
+  
+  const newScore = Number(document.getElementById('gradeInput').value);
+  const comment = document.getElementById('gradeComment').value;
+  
+  r.teacherScore = newScore;
+  r.teacherComment = comment;
+  r.reviewed = true;
+  
+  if(comment){
+    if(!r.comments) r.comments = [];
+    r.comments.push({
+      from: 'teacher',
+      text: comment,
+      time: new Date().toISOString()
+    });
+  }
+  
+  saveAll();
+  alert('บันทึกคะแนนเรียบร้อย ข้อความได้ส่งถึงนิสิตแล้ว');
+  openStudentReview(r.username);
+}
+
+function deleteSubmission(recId){
+  if(!confirm('ต้องการลบ submission นี้หรือไม่?')) return;
+  
+  const idx = records.findIndex(r=>r.id===recId);
+  if(idx!==-1){
+    const username = records[idx].username;
+    records.splice(idx,1);
+    saveAll();
+    openStudentReview(username);
+  }
+}
+
+// ========== Teacher: Students List ==========
+function teacherStudentsUI(){
+  const html = `
+    <div class="panel">
+      <h3>รายชื่อนิสิต & สรุปคะแนน</h3>
+      <div id="studentsSummary"></div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+  renderStudentsSummary();
+}
+
+function renderStudentsSummary(){
+  const area = document.getElementById('studentsSummary');
+  const studs = users.filter(u=>u.role==='student');
+  
+  if(studs.length===0){
+    area.innerHTML='<div class="small">ยังไม่มีนิสิต</div>';
+    return;
+  }
+  
+  const totals = computeScoresForAll();
+  
+  let html = `<table class="table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>ชื่อ</th>
+        <th>ชั้นปี</th>
+        <th>ลงชื่อ</th>
+        <th>ส่งงาน</th>
+        <th>คะแนนรวม (50%)</th>
+        <th>คะแนนเต็ม (100%)</th>
+        <th>เกรด</th>
+      </tr>
+    </thead>
+    <tbody>`;
+  
+  studs.forEach(s=>{
+    const att = records.filter(r=>r.username===s.username && r.type==='attendance').length;
+    const works = records.filter(r=>r.username===s.username && r.type==='clinic').length;
+    const scoreData = totals.scoresByUser[s.username];
+    const halfScore = scoreData ? scoreData.total.toFixed(2) : '0.00';
+    const fullScore = scoreData ? (scoreData.total * 2).toFixed(2) : '0.00';
+    const grade = scoreData ? scoreToGrade(scoreData.total * 2) : '-';
+    
+    html += `<tr>
+      <td>${s.username}</td>
+      <td>${s.fullName}</td>
+      <td>${s.year||'-'}</td>
+      <td>${att}</td>
+      <td>${works}</td>
+      <td><strong>${halfScore}%</strong></td>
+      <td><strong>${fullScore}%</strong></td>
+      <td><strong style="font-size:18px;color:var(--purple)">${grade}</strong></td>
+    </tr>`;
+  });
+  
+  html += '</tbody></table>';
+  area.innerHTML = html;
+}
+
+// ========== Teacher: Settings ==========
+function teacherSettingsUI(){
+  const w = settings.weights;
+  const html = `
+    <div class="panel">
+      <h3>ตั้งค่าเกณฑ์คะแนน</h3>
+      <div class="small">ปรับน้ำหนักคะแนนแต่ละส่วน (รวมเป็น 50% ของรายวิชา)</div>
+      
+      <div class="alert-box alert-warning" style="margin:15px 0">
+        <strong>📌 หมายเหตุ:</strong> คะแนนที่ตั้งค่าเป็น % จาก 50% ของรายวิชา<br>
+        ระบบจะแปลงเป็น 100% โดยอัตโนมัติเมื่อแสดงผล
+      </div>
+      
+      <div class="row" style="margin-top:20px">
+        <div class="col">
+          <label>Pre-test (%):</label>
+          <input id="w_pre" type="number" step="0.1" value="${w.preTest}">
+        </div>
+        <div class="col">
+          <label>Attendance (%):</label>
+          <input id="w_att" type="number" step="0.1" value="${w.attendance}">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <label>Intraoral Take (%):</label>
+          <input id="w_r1" type="number" step="0.1" value="${w.rad_intraoral_take}">
+        </div>
+        <div class="col">
+          <label>Intraoral Quality (%):</label>
+          <input id="w_r2" type="number" step="0.1" value="${w.rad_intraoral_quality}">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <label>Interpretation (%):</label>
+          <input id="w_r3" type="number" step="0.1" value="${w.rad_interpretation}">
+        </div>
+        <div class="col">
+          <label>Post-test (%):</label>
+          <input id="w_post" type="number" step="0.1" value="${w.postTest}">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <label>Clinical Other (%):</label>
+          <input id="w_other" type="number" step="0.1" value="${w.clinical_other}">
+        </div>
+        <div class="col">
+          <label>Attendance ขั้นต่ำ (ครั้ง):</label>
+          <input id="attReq" type="number" value="${settings.attendanceRequiredCount}">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <label>จำนวนฟิล์มขั้นต่ำ (ฟิล์ม):</label>
+          <input id="minFilms" type="number" value="${settings.minimumFilmsRequired}">
+        </div>
+      </div>
+      
+      <div style="margin-top:20px">
+        <label><strong>รายการฟิล์มที่ต้องส่ง</strong> (คั่นด้วยเครื่องหมายจุลภาค):</label>
+        <input id="reqTasks" value="${(settings.requiredTasks||[]).join(',')}" 
+          placeholder="Periapical,Bitewing,Occlusal,Panoramic,Ceph"/>
+      </div>
+      
+      <button onclick="saveSettings()" style="margin-top:20px">บันทึกการตั้งค่า</button>
+      
+      <div class="note" style="margin-top:15px;padding:15px;background:#f9f5ff;border-radius:8px">
+        <strong>💡 เกณฑ์ Default (จากเอกสาร):</strong><br>
+        • Pre-test: 2.5% | Attendance: 5%<br>
+        • Radiology: Intraoral Take 5% + Quality 3.5% + Interpretation 6.5% = 15%<br>
+        • Post-test: 2.5% | Clinical Other: 25%<br>
+        • <strong>รวมทั้งหมด = 50%</strong> (อีก 50% จากรายวิชาอื่น)<br>
+        • Attendance ขั้นต่ำ: 12 ครั้ง (80% ของ 15 ครั้ง)<br>
+        • จำนวนฟิล์มขั้นต่ำ: 30 ฟิล์ม
+      </div>
+    </div>
+  `;
+  document.getElementById('contentArea').innerHTML = html;
+}
+
+function saveSettings(){
+  settings.weights.preTest = Number(document.getElementById('w_pre').value);
+  settings.weights.attendance = Number(document.getElementById('w_att').value);
+  settings.weights.rad_intraoral_take = Number(document.getElementById('w_r1').value);
+  settings.weights.rad_intraoral_quality = Number(document.getElementById('w_r2').value);
+  settings.weights.rad_interpretation = Number(document.getElementById('w_r3').value);
+  settings.weights.postTest = Number(document.getElementById('w_post').value);
+  settings.weights.clinical_other = Number(document.getElementById('w_other').value);
+  settings.attendanceRequiredCount = Number(document.getElementById('attReq').value);
+  settings.minimumFilmsRequired = Number(document.getElementById('minFilms').value);
+  settings.requiredTasks = document.getElementById('reqTasks').value
+    .split(',').map(s=>s.trim()).filter(Boolean);
+  
+  const total = settings.weights.preTest + settings.weights.attendance + 
+                settings.weights.rad_intraoral_take + settings.weights.rad_intraoral_quality +
+                settings.weights.rad_interpretation + settings.weights.postTest + 
+                settings.weights.clinical_other;
+  
+  if(Math.abs(total - 50) > 0.1){
+    alert(`⚠️ คำเตือน: ผลรวมคะแนนเท่ากับ ${total.toFixed(1)}% (ควรเป็น 50%)`);
+  }
+  
+  saveAll();
+  alert('บันทึกการตั้งค่าเรียบร้อย!');
+}
+
+// ========== Score Computation ==========
+function computeScoresForAll(){
+  const studs = users.filter(u=>u.role==='student').map(u=>u.username);
+  const w = settings.weights;
+  const attendanceFullCount = 15;
+  const scoresByUser = {};
+  
+  studs.forEach(u=>{
+    // Attendance score (เต็ม 5% จาก 50%)
+    const attCount = records.filter(r=>r.username===u && r.type==='attendance').length;
+    const attendanceScore = Math.min(attCount/attendanceFullCount, 1) * w.attendance;
+    
+    // Radiology scores from clinic submissions
+    const clinics = records.filter(r=>r.username===u && r.type==='clinic' && r.teacherScore!==null);
+    const typeBuckets = {IntraoralTake:[], IntraoralQuality:[], Interpretation:[]};
+    
+    clinics.forEach(c=>{
+      const sc = Number(c.teacherScore);
+      if(['Periapical','Bitewing','Occlusal'].includes(c.xrayType)){
+        typeBuckets.IntraoralTake.push(sc);
+        typeBuckets.IntraoralQuality.push(sc);
+      } else if(['Panoramic','Ceph'].includes(c.xrayType)){
+        typeBuckets.Interpretation.push(sc);
+      } else {
+        typeBuckets.Interpretation.push(sc);
+      }
+    });
+    
+    const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+    const avgTake = avg(typeBuckets.IntraoralTake);
+    const avgQuality = avg(typeBuckets.IntraoralQuality);
+    const avgInterp = avg(typeBuckets.Interpretation);
+    
+    const scoreTake = (avgTake/100) * w.rad_intraoral_take;
+    const scoreQuality = (avgQuality/100) * w.rad_intraoral_quality;
+    const scoreInterp = (avgInterp/100) * w.rad_interpretation;
+    
+    // Pre/Post test
+    const pre = records.filter(r=>r.username===u && r.type==='pretest' && r.teacherScore!=null)
+      .map(x=>x.teacherScore);
+    const post = records.filter(r=>r.username===u && r.type==='posttest' && r.teacherScore!=null)
+      .map(x=>x.teacherScore);
+    const preScore = pre.length ? (pre.reduce((a,b)=>a+b,0)/pre.length)/100 * w.preTest : 0;
+    const postScore = post.length ? (post.reduce((a,b)=>a+b,0)/post.length)/100 * w.postTest : 0;
+    
+    // Other clinical work
+    const other = records.filter(r=>r.username===u && r.type==='clinical_other' && r.teacherScore!=null)
+      .map(x=>x.teacherScore);
+    const otherScore = other.length ? (other.reduce((a,b)=>a+b,0)/other.length)/100 * w.clinical_other : 0;
+    
+    const total = attendanceScore + scoreTake + scoreQuality + scoreInterp + preScore + postScore + otherScore;
+    
+    scoresByUser[u] = {
+      total: total,
+      breakdown: {
+        attendanceScore,
+        scoreTake,
+        scoreQuality,
+        scoreInterp,
+        preScore,
+        postScore,
+        otherScore
+      }
+    };
+  });
+  
+  return { scoresByUser };
+}
+
+// ========== Initialize ==========
+initData();
+</script>
+</body>
+</html>
